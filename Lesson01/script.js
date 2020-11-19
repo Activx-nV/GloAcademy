@@ -1,9 +1,9 @@
-let money = 1337;
-const income = 'huge';
-let addExpenses = ['low'];
-let deposit = 187;
-let mission = 'completed';
-let period = 'half';
+let money;
+let income;
+let addExpenses;
+let deposit;
+let mission;
+let period;
 
 alert('Hello World!');
 console.log('Lesson 1');
