@@ -13,5 +13,5 @@ console.log(`Период равен ${period} месяцев и Цель зар
 
 console.log(addExpenses.toLowerCase().split(''));
 
-let budgetDay = (3000 / 30);
+let budgetDay = (money / 30);
 console.log(budgetDay);
