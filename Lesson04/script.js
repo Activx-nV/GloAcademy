@@ -1,9 +1,9 @@
 'use strict';
 
-let money = 120000;
+let money = +prompt('Ваш месячный доход?');
 let income = 'freelance';
-let addExpenses = 'internet,food';
-let deposit = true;
+let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую').toLowerCase().split(',');
+let deposit = confirm('Есть ли у вас депозит в банке?');
 let mission = 100000;
 let period = 12;
 
@@ -13,13 +13,7 @@ let showTypeOf = function() {
     console.log(typeof deposit);
 };
 
-
-
-money = +prompt('Ваш месячный доход?');
 let budgetDay = (money / 30);
-addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую');
-addExpenses = addExpenses.toLowerCase().split(',');
-deposit = confirm('Есть ли у вас депозит в банке?');
 
 let expenses1 = prompt('Введите обязательную статью расходов');
 let amount1 = +prompt(`Во сколько это обойдется? (${expenses1})`);
