@@ -43,35 +43,33 @@ if (budgetDay >= 1200) {
 
 //Lesson 4
 
-let getExpensesMonth = function() {
-    return (amount1 + amount2);
+let getExpensesMonth = function(amountOne, amountTwo) {
+    return (amountOne + amountTwo);
 };
 
-let getAccumulatedMonth = function() {
+let getAccumulatedMonth = function(amount1, amount2, money) {
     return (money - (amount1 + amount2));
 };
 
 let accumulatedMonth = function() {
-    return getAccumulatedMonth();
+    getAccumulatedMonth(amount1,amount2,money);
 };
 
 let getTargetMonth = function() {
-    console.log(`Цель будет достигнута за: ${Math.round(mission / accumulatedMonth())} месяц/а`);
+    console.log(`Цель будет достигнута за: ${Math.round(mission / getAccumulatedMonth(amount1, amount2, money))} месяц/а`);
 };
 
-let getStatusIncome = function() {
+let getStatusIncome = function(income) {
     console.log(income);
 };
 
 
-budgetDay = (Math.round(accumulatedMonth() / 30));
+budgetDay = (Math.round(getAccumulatedMonth(amount1, amount2, money) / 30));
 
 
 showTypeOf();
-console.log(getExpensesMonth());
+console.log(getExpensesMonth(amount1,amount2));
 console.log(addExpenses);
 getTargetMonth();
 console.log(budgetDay);
-getStatusIncome();
-
-
+getStatusIncome(income);
