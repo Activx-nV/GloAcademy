@@ -4,6 +4,7 @@ let isNumber = function(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 };
 
+
 let money;
 let income = 'freelance';
 let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую');
@@ -34,25 +35,23 @@ let expenses = [];
 
 console.log(addExpenses.toLowerCase().split(','));
 
+let monthAmount = 0;
 
 let getExpensesMonth = function() {
-    let sum = 0;
-    let temp = 0;
+    let sum;
     for (let i = 0; i < 2; i++) {
             
         expenses[i] = prompt('Введите обязательную статью расходов');
-        
-        sum += +prompt('Во сколько это обойдется?(цифры)');
-        
-        while (isNaN(sum)) {
-            alert('Пожалуйста, введите цифры, а не буквы');
-            sum = 0;
-            sum += +prompt('Во сколько это обойдется?(цифры)');
+
+        do{
+            sum = '';
+            sum += prompt('Во сколько это обойдется?(цифры)');
         }
-        temp += sum;
+        while (!isNumber(sum));
+        monthAmount += parseFloat(sum);
     }
     console.log(expenses);
-    return temp;
+    return monthAmount;
 };
 
 let expensesAmount = getExpensesMonth();
