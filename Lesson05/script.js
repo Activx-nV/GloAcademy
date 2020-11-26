@@ -44,8 +44,7 @@ let getExpensesMonth = function() {
         expenses[i] = prompt('Введите обязательную статью расходов');
 
         do{
-            sum = '';
-            sum += prompt('Во сколько это обойдется?(цифры)');
+            sum = prompt('Во сколько это обойдется?(цифры)');
         }
         while (!isNumber(sum));
         monthAmount += parseFloat(sum);
