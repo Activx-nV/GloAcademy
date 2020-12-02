@@ -35,13 +35,13 @@ let appData = {
         if (confirm('Есть ли у вас дополнительный источник заработка?')) {
             let itemIncome = prompt('Какой у вас дополнительный заработок?', 'Таксую');
 
-            while(isNumber(itemIncome)) {
+            while (isNumber(itemIncome)) {
                 itemIncome = prompt('Какой у вас дополнительный заработок?', 'Таксую');
             }
 
             let cashIncome = prompt('Сколько в месяц вы на этом зарабатываете?', 10000);
 
-            while(!isNumber(cashIncome)) {
+            while (!isNumber(cashIncome)) {
                 cashIncome = prompt('Сколько в месяц вы на этом зарабатываете?', 10000);
             }
 
@@ -61,7 +61,7 @@ let appData = {
         for (let i = 0; i < appData.addExpenses.length; i++) {
             if (appData.addExpenses[i][0] === ' ') {
                 appData.addExpenses[i] = appData.addExpenses[i].charAt(1).toUpperCase() + appData.addExpenses[i].substr(2);
-            } else {
+            }  else {
                 appData.addExpenses[i] = appData.addExpenses[i].charAt(0).toUpperCase() + appData.addExpenses[i].substr(1);
             }
         }
@@ -75,11 +75,11 @@ let appData = {
 
         let question = prompt('Введите обязательную статью расходов');
 
-        while(isNumber(question)) {
+        while (isNumber(question)) {
             question = prompt('Введите обязательную статью расходов');
         }
 
-        do{
+        do {
             sum = prompt('Во сколько это обойдется?(цифры)');
         }
         while (!isNumber(sum));
@@ -119,7 +119,7 @@ let appData = {
         for (let key in appData) {
             if (typeof appData[key] === 'number' || typeof appData[key] === 'string' && appData[key] !== '') {
                 console.log(`${key} - ${appData[key]}`);
-            } else if(key === 'expenses') {
+            } else if (key === 'expenses') {
                 for (let key2 in appData[key]) {
                     console.log(`Обязательные расходы: ${key2}`);
                 }
@@ -129,12 +129,12 @@ let appData = {
     getInfoDeposit: function() {
         if (appData.deposit) {
             appData.percentDeposit = prompt('Какой годовой процент?', '10');
-            while(!isNumber(appData.percentDeposit)) {
+            while (!isNumber(appData.percentDeposit)) {
                 appData.percentDeposit = prompt('Какой годовой процент?', '10');
             }
             
             appData.moneyDeposit = prompt('Какая сумма заложена?', 10000);
-            while(!isNumber(appData.moneyDeposit)) {
+            while (!isNumber(appData.moneyDeposit)) {
                 appData.moneyDeposit = prompt('Какая сумма заложена?', 10000);
             }
         }
