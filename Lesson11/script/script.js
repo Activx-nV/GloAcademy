@@ -43,14 +43,6 @@ let appData = {
     percentDeposit: 0,
     moneyDeposit: 0,
     start: function () {
-        // do {
-        //     money = prompt('Ваш месячный доход?');
-        // }
-        // while (!isNumber(money));
-        // if (inputSalaryAmount.value === '') {
-        //     alert('Ошибка, поле "Месячный доход" должно быть заполнено');
-        //     return; //чтобы ничего не произошло
-        // }
 
         if (inputSalaryAmount.value === '') {
             calculate.setAttribute('disabled');
@@ -64,12 +56,8 @@ let appData = {
         appData.getAddIncome();
         appData.getBudget();
         appData.showResult();
-
     },
     showResult: function () {
-
-
-
         showBudgetDayValue.value = appData.budgetDay;
         showBudgetMonthValue.value = appData.budgetMonth;
         showExpensesMonthValue.value = appData.expensesMonth;
@@ -115,27 +103,15 @@ let appData = {
     getIncome: function () {
         inputIncomeItem.forEach(function (item) {
             let itemIncome = item.querySelector('.income-title').value;
-
-            // while (isNumber(itemIncome)) {
-            //     itemIncome = prompt('Какой у вас дополнительный заработок?', 'Таксую');
-            // }
-
             let cashIncome = item.querySelector('.income-amount').value;
             if (itemIncome !== '' && cashIncome !== '') {
                 appData.income[itemIncome] = cashIncome;
             }
-            // while (!isNumber(cashIncome)) {
-            //     cashIncome = prompt('Сколько в месяц вы на этом зарабатываете?', 10000);
-            // }
         });
-
-
-        //appData.income[itemIncome] = cashIncome;
 
         for (let key in appData.income) {
             appData.incomeMonth += +appData.income[key];
         }
-
     },
     getAddIncome: function () {
         inputAdditionalIncomeItem.forEach(function (item) {
@@ -203,25 +179,15 @@ let appData = {
     calcSavedMoney: function () {
         return appData.budgetMonth * inputPeriodRange.value;
     }
-
 };
 
 calculate.addEventListener('click', appData.start);
-
 expensesPlus.addEventListener('click', appData.addExpensesBlock);
 incomePlus.addEventListener('click', appData.addIncomeBlock);
 inputPeriodRange.addEventListener('change', appData.getRangeLevel);
 inputPeriodRange.addEventListener('change', () => {
     showIncomePeriodValue.value = appData.calcSavedMoney();
 });
-
-//appData.asking();
-
-//console.log('Возможные расходы: ' + appData.addExpenses.join(', '));
-
-
-//console.log('Расходы за месяц: ' + appData.getExpensesMonth());
-
 
 
 // if (appData.getTargetMonth() > 0) {
