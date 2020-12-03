@@ -27,7 +27,7 @@ let isNumber = function (n) {
 };
 
 inputSalaryAmount.addEventListener('input', () => {
-    if (inputSalaryAmount !== '') {
+    if (inputSalaryAmount !== '' && isNumber(inputSalaryAmount.value)) {
         calculate.removeAttribute('disabled', "true");
     }
 });
