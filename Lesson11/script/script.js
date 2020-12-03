@@ -22,11 +22,25 @@ let calculate = document.querySelector('#start'),
     inputPeriodRangeCounter = document.querySelector('.period-amount'),
     inputIncomeItem = document.querySelectorAll('.income-items');
 
-
-
 let isNumber = function (n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 };
+
+inputSalaryAmount.addEventListener('input', () => {
+    if (inputSalaryAmount !== '') {
+        calculate.removeAttribute('disabled', "true");
+    }
+});
+
+if (inputSalaryAmount.value === '') {
+    calculate.setAttribute('disabled', "true");
+}
+
+inputSalaryAmount.addEventListener('input', () => {
+    if (inputSalaryAmount.value === '') {
+        calculate.setAttribute('disabled', "true");
+    }
+});
 
 
 let appData = {
@@ -43,10 +57,6 @@ let appData = {
     percentDeposit: 0,
     moneyDeposit: 0,
     start: function () {
-
-        if (inputSalaryAmount.value === '') {
-            calculate.setAttribute('disabled');
-        }
 
         appData.budget = +inputSalaryAmount.value;
         appData.getExpenses();
