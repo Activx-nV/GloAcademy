@@ -29,77 +29,6 @@ let calculate = document.querySelector('#start'),
 let regExp = /^[а-яА-Я., ]/;
 let numberRegExp = /^[0-9]/;
 
-inputIncomeTitle[0].addEventListener('input', () => {
-    if (inputIncomeTitle[0].value !== '') {
-        if (inputIncomeTitle[0].value[inputIncomeTitle[0].value.length - 1].match(regExp)) {
-            inputIncomeTitle[0].value = inputIncomeTitle[0].value;
-        } else {
-            inputIncomeTitle[0].value = inputIncomeTitle[0].value.substr(0, inputIncomeTitle[0].value.length - 1);
-        }
-    }
-});
-
-inputAdditionalIncomeItem[0].addEventListener('input', () => {
-    if (inputAdditionalIncomeItem[0].value !== '') {
-        if (inputAdditionalIncomeItem[0].value[inputAdditionalIncomeItem[0].value.length - 1].match(regExp)) {
-            inputAdditionalIncomeItem[0].value = inputAdditionalIncomeItem[0].value;
-        } else {
-            inputAdditionalIncomeItem[0].value = inputAdditionalIncomeItem[0].value.substr(0, inputAdditionalIncomeItem[0].value.length - 1);
-        }
-    }
-});
-
-inputAdditionalIncomeItem[1].addEventListener('input', () => {
-    if (inputAdditionalIncomeItem[1].value !== '') {
-        if (inputAdditionalIncomeItem[1].value[inputAdditionalIncomeItem[1].value.length - 1].match(regExp)) {
-            inputAdditionalIncomeItem[1].value = inputAdditionalIncomeItem[1].value;
-        } else {
-            inputAdditionalIncomeItem[1].value = inputAdditionalIncomeItem[1].value.substr(0, inputAdditionalIncomeItem[1].value.length - 1);
-        }
-    }
-});
-
-inputExpensesTitle[0].addEventListener('input', () => {
-    if (inputExpensesTitle[0].value !== '') {
-        if (inputExpensesTitle[0].value[inputExpensesTitle[0].value.length - 1].match(regExp)) {
-            inputExpensesTitle[0].value = inputExpensesTitle[0].value;
-        } else {
-            inputExpensesTitle[0].value = inputExpensesTitle[0].value.substr(0, inputExpensesTitle[0].value.length - 1);
-        }
-    }
-});
-
-inputIncomeAmount[0].addEventListener('input', () => {
-    if (inputIncomeAmount[0].value) {
-        if (inputIncomeAmount[0].value[inputIncomeAmount[0].value.length - 1].match(numberRegExp)) {
-            inputIncomeAmount[0].value = inputIncomeAmount[0].value;
-        } else {
-            inputIncomeAmount[0].value = inputIncomeAmount[0].value.substr(0, inputIncomeAmount[0].value.length - 1);
-        }
-    }
-});
-
-inputExpensesAmount[0].addEventListener('input', () => {
-    if (inputExpensesAmount[0].value !== '') {
-        if (inputExpensesAmount[0].value[inputExpensesAmount[0].value.length - 1].match(numberRegExp)) {
-            inputExpensesAmount[0].value = inputExpensesAmount[0].value;
-        } else {
-            inputExpensesAmount[0].value = inputExpensesAmount[0].value.substr(0, inputExpensesAmount[0].value.length - 1);
-        }
-    }
-});
-
-inputTargetAmount.addEventListener('input', () => {
-    if (inputTargetAmount.value !== '') {
-        if (inputTargetAmount.value[inputTargetAmount.value.length - 1].match(numberRegExp)) {
-            inputTargetAmount.value = inputTargetAmount.value;
-        } else {
-            inputTargetAmount.value = inputTargetAmount.value.substr(0, inputTargetAmount.value.length - 1);
-        }
-    }
-});
-
-
 
 let isNumber = function (n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
@@ -116,7 +45,7 @@ if (inputSalaryAmount.value === '') {
 }
 
 inputSalaryAmount.addEventListener('input', () => {
-    if (inputSalaryAmount.value === '') {
+    if (inputSalaryAmount.value === '' || parseFloat(inputSalaryAmount) === 'NaN') {
         calculate.setAttribute('disabled', "true");
     }
 });
@@ -137,15 +66,6 @@ let appData = {
 
 
     start: function () {
-        // do {
-        //     money = prompt('Ваш месячный доход?');
-        // }
-        // while (!isNumber(money));
-        // if (inputSalaryAmount.value === '') {
-        //     alert('Ошибка, поле "Месячный доход" должно быть заполнено');
-        //     return; //чтобы ничего не произошло
-        // }
-
         this.budget = +inputSalaryAmount.value;
         this.getExpenses();
         this.getIncome();
@@ -154,6 +74,30 @@ let appData = {
         this.getAddIncome();
         this.getBudget();
         this.showResult();
+    },
+    checkInputForValidString: function (inputElement, callback) {
+        if (inputElement.value !== '') {
+            if (inputElement.value[inputElement.value.length - 1].match(regExp)) {
+                inputElement.value = inputElement.value;
+            } else {
+                inputElement.value = inputElement.value.substr(0, inputElement.value.length - 1);
+            }
+        }
+    },
+    checkInputForNumber: function (inputElement, callback) {
+        if (inputElement.value !== '') {
+            if (inputElement.value[inputElement.value.length - 1].match(numberRegExp)) {
+                inputElement.value = inputElement.value;
+            } else {
+                inputElement.value = inputElement.value.substr(0, inputElement.value.length - 1);
+            }
+        }
+    },
+    getContext: function (callback, inputElement) {
+        let thisObj = this;
+        return (function () {
+            callback.apply(thisObj, inputElement);
+        });
     },
     reset: function () {
         inputIncomeItem.forEach((item, i) => {
@@ -262,7 +206,6 @@ let appData = {
         cloneExpensesItem.firstElementChild.value = '';
         cloneExpensesItem.lastElementChild.value = '';
 
-
         cloneExpensesItem.firstElementChild.addEventListener('input', () => {
             if (cloneExpensesItem.firstElementChild.value !== '') {
                 if (cloneExpensesItem.firstElementChild.value[cloneExpensesItem.firstElementChild.value.length - 1].match(regExp)) {
@@ -294,7 +237,6 @@ let appData = {
         cloneIncomeItem.firstElementChild.value = '';
         cloneIncomeItem.lastElementChild.value = '';
 
-
         cloneIncomeItem.firstElementChild.addEventListener('input', () => {
             if (cloneIncomeItem.firstElementChild.value !== '') {
                 if (cloneIncomeItem.firstElementChild.value[cloneIncomeItem.firstElementChild.value.length - 1].match(regExp)) {
@@ -314,8 +256,6 @@ let appData = {
                 }
             }
         });
-
-
 
         inputIncomeItem[0].parentNode.insertBefore(cloneIncomeItem, incomePlus);
         inputIncomeItem = document.querySelectorAll('.income-items');
@@ -423,10 +363,27 @@ let appData = {
     calcSavedMoney: function () {
         return this.budgetMonth * inputPeriodRange.value;
     }
-
 };
+let applied1 = appData.getContext(appData.checkInputForValidString, [inputIncomeTitle[0]]);
+inputIncomeTitle[0].addEventListener('input', applied1);
 
+let applied2 = appData.getContext(appData.checkInputForValidString, [inputAdditionalIncomeItem[0]]);
+inputAdditionalIncomeItem[0].addEventListener('input', applied2);
 
+let applied3 = appData.getContext(appData.checkInputForValidString, [inputAdditionalIncomeItem[1]]);
+inputAdditionalIncomeItem[1].addEventListener('input', applied3);
+
+let applied4 = appData.getContext(appData.checkInputForValidString, [inputExpensesTitle[0]]);
+inputExpensesTitle[0].addEventListener('input', applied4);
+
+let applied5 = appData.getContext(appData.checkInputForNumber, [inputIncomeAmount[0]]);
+inputIncomeAmount[0].addEventListener('input', applied5);
+
+let applied6 = appData.getContext(appData.checkInputForNumber, [inputExpensesAmount[0]]);
+inputExpensesAmount[0].addEventListener('input', applied6);
+
+let applied7 = appData.getContext(appData.checkInputForNumber, [inputTargetAmount]);
+inputTargetAmount.addEventListener('input', applied7);
 
 calculate.addEventListener('click', () => {
     appData.start.apply(appData);
