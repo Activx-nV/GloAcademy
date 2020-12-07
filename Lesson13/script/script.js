@@ -75,7 +75,7 @@ let appData = {
         this.getBudget();
         this.showResult();
     },
-    checkInputForValidString: function (inputElement, callback) {
+    checkInputForValidString: function (inputElement) {
         if (inputElement.value !== '') {
             if (inputElement.value[inputElement.value.length - 1].match(regExp)) {
                 inputElement.value = inputElement.value;
@@ -84,7 +84,7 @@ let appData = {
             }
         }
     },
-    checkInputForNumber: function (inputElement, callback) {
+    checkInputForNumber: function (inputElement) {
         if (inputElement.value !== '') {
             if (inputElement.value[inputElement.value.length - 1].match(numberRegExp)) {
                 inputElement.value = inputElement.value;
