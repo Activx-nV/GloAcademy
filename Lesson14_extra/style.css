@@ -1,0 +1,16 @@
+body {
+    height: 100vh;
+    overflow-y: hidden;
+}
+
+.divElement {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+#divElement {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
