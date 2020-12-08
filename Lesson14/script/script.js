@@ -155,15 +155,13 @@ AppData.prototype.reset = function () {
     expensesPlus.removeAttribute('disabled', "true");
     inputAdditionalExpensesItem.removeAttribute('disabled', "true");
     inputTargetAmount.removeAttribute('disabled', "true");
-    
-    const reset = new AppData();
-    let resetData = Object.assign(reset);
 
     document.querySelectorAll('input').forEach(function (item) {
         item.value = '';
     });
-
-    appData = resetData;
+    
+    const reset = new AppData();
+    Object.assign(appData, reset);
 
     for (let i = 0; i < inputIncomeItem.length; i++) {
         inputIncomeItem[i].firstElementChild.value = '';
@@ -187,9 +185,8 @@ AppData.prototype.reset = function () {
         item.lastElementChild.value = '';
     });
 
-    inputAdditionalExpensesItem.value = '';
-    inputTargetAmount.value = '';
-
+    inputPeriodRangeCounter.textContent = '1';
+    inputPeriodRange.value = 1;
     appData.checkSalaryInput();
 
 };
