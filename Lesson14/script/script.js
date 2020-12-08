@@ -51,7 +51,7 @@ const AppData = function () {
     this.moneyDeposit = 0;
 };
 
-const appData = new AppData();
+let appData = new AppData();
 
 AppData.prototype.start = function () {
     this.budget = +inputSalaryAmount.value;
@@ -110,6 +110,7 @@ AppData.prototype.checkSalaryInput = function () {
 };
 
 AppData.prototype.reset = function () {
+
     inputIncomeItem.forEach((item, i) => {
         if (i !== 0) {
             item.remove();
@@ -154,27 +155,15 @@ AppData.prototype.reset = function () {
     expensesPlus.removeAttribute('disabled', "true");
     inputAdditionalExpensesItem.removeAttribute('disabled', "true");
     inputTargetAmount.removeAttribute('disabled', "true");
+    
+    const reset = new AppData();
+    let resetData = Object.assign(reset);
 
-    appData.income = {};
-    appData.incomeMonth = 0;
-    appData.addIncome = [];
-    appData.expenses = {};
-    appData.addExpenses = [];
-    appData.deposit = false;
-    appData.budget = 0;
-    appData.budgetDay = 0;
-    appData.budgetMonth = 0;
-    appData.expensesMonth = 0;
-    appData.percentDeposit = 0;
-    appData.moneyDeposit = 0;
-    showBudgetDayValue.value = '';
-    showBudgetMonthValue.value = '';
-    showExpensesMonthValue.value = '';
-    showAdditionalExpensesValue.value = '';
-    showAdditionalIncomeValue.value = '';
-    showTargetMonthValue.value = '';
-    showIncomePeriodValue.value = '';
-    inputSalaryAmount.value = '';
+    document.querySelectorAll('input').forEach(function (item) {
+        item.value = '';
+    });
+
+    appData = resetData;
 
     for (let i = 0; i < inputIncomeItem.length; i++) {
         inputIncomeItem[i].firstElementChild.value = '';
