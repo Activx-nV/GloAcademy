@@ -38,10 +38,10 @@ DomElement.prototype.createElement = function () {
     }
 };
 
-DomElement.prototype.getContext = function (callback, inputElement) {
+DomElement.prototype.getContext = function (callback) {
     let thisObj = this;
     return (function () {
-        callback.apply(thisObj, inputElement);
+        callback.apply(thisObj);
     });
 };
 
@@ -63,34 +63,65 @@ document.addEventListener('keydown', (e) => {
     let p = document.getElementById('divElement');
     let div = document.querySelector('div');
 
-
-    if (e.keyCode === 38) {
-        // up arrow
-        p.style.top = counterVertical + 'px';
-        if (counterVertical < 0) {
-            counterVertical = 0;
+    if (div === null) {
+        if (e.keyCode === 38) {
+            // up arrow
+            p.style.top = counterVertical + 'px';
+            if (counterVertical < 0) {
+                counterVertical = 0;
+            }
+            counterVertical -= 10;
+        } else if (e.keyCode === 40) {
+            // down arrow
+            p.style.top = counterVertical + 'px';
+            if (counterVertical > 850) {
+                counterVertical = 850;
+            }
+            counterVertical += 10;
+        } else if (e.keyCode === 37) {
+            // left arrow
+            p.style.left = counterHorizontal + 'px';
+            if (counterHorizontal < 10) {
+                counterHorizontal = 10;
+            }
+            counterHorizontal -= 10;
+        } else if (e.keyCode === 39) {
+            // right arrow
+            p.style.left = counterHorizontal + 'px';
+            if (counterHorizontal > 1820) {
+                counterHorizontal = 1820;
+            }
+            counterHorizontal += 10;
         }
-        counterVertical -= 10;
-    } else if (e.keyCode === 40) {
-        // down arrow
-        p.style.top = counterVertical + 'px';
-        if (counterVertical > 850) {
-            counterVertical = 850;
+    } else if (p === null) {
+        if (e.keyCode === 38) {
+            // up arrow
+            div.style.top = counterVertical + 'px';
+            if (counterVertical < 10) {
+                counterVertical = 10;
+            }
+            counterVertical -= 10;
+        } else if (e.keyCode === 40) {
+            // down arrow
+            div.style.top = counterVertical + 'px';
+            if (counterVertical > 850) {
+                counterVertical = 850;
+            }
+            counterVertical += 10;
+        } else if (e.keyCode === 37) {
+            // left arrow
+            div.style.left = counterHorizontal + 'px';
+            if (counterHorizontal < 10) {
+                counterHorizontal = 10;
+            }
+            counterHorizontal -= 10;
+        } else if (e.keyCode === 39) {
+            // right arrow
+            div.style.left = counterHorizontal + 'px';
+            if (counterHorizontal > 1820) {
+                counterHorizontal = 1820;
+            }
+            counterHorizontal += 10;
         }
-        counterVertical += 10;
-    } else if (e.keyCode === 37) {
-        // left arrow
-        p.style.left = counterHorizontal + 'px';
-        if (counterHorizontal < 10) {
-            counterHorizontal = 10;
-        }
-        counterHorizontal -= 10;
-    } else if (e.keyCode === 39) {
-        // right arrow
-        p.style.left = counterHorizontal + 'px';
-        if (counterHorizontal > 1820) {
-            counterHorizontal = 1820;
-        }
-        counterHorizontal += 10;
     }
 });
