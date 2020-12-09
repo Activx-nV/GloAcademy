@@ -26,32 +26,6 @@ const calculate = document.querySelector('#start'),
 let expensesItems = document.querySelectorAll('.expenses-items'),
     inputIncomeItem = document.querySelectorAll('.income-items');
 
-
-const regExp = /^[а-яА-Я., ]/;
-const numberRegExp = /^[0-9]/;
-
-let isNumber = (n) => !isNaN(parseFloat(n)) && isFinite(n);
-let checkSalary = () => {
-    inputSalaryAmount.addEventListener('input', () => {
-        if (inputSalaryAmount !== '' && isNumber(inputSalaryAmount.value)) {
-            calculate.removeAttribute('disabled', "true");
-        }
-    });
-
-    if (inputSalaryAmount.value === '') {
-        calculate.setAttribute('disabled', "true");
-    }
-    inputSalaryAmount.addEventListener('input', () => {
-        if (inputSalaryAmount.value === '' || parseFloat(inputSalaryAmount) === 'NaN') {
-            calculate.setAttribute('disabled', "true");
-        }
-    });
-};
-
-
-
-
-
 class AppData {
     constructor() {
         this.income = {};
@@ -66,11 +40,12 @@ class AppData {
         this.expensesMonth = 0;
         this.percentDeposit = 0;
         this.moneyDeposit = 0;
+        this.regExp = /^[а-яА-Я., ]/;
+        this.numberRegExp = /^[0-9]/;
     }
     start() {
         this.budget = +inputSalaryAmount.value;
-        this.getExpenses();
-        this.getIncome();
+        this.getExpInc();
         this.getExpensesMonth();
         this.getAddExpenses();
         this.getAddIncome();
@@ -80,7 +55,7 @@ class AppData {
 
     checkInputForValidString(inputElement) {
         if (inputElement.value !== '') {
-            if (inputElement.value[inputElement.value.length - 1].match(regExp)) {
+            if (inputElement.value[inputElement.value.length - 1].match(/^[а-яА-Я., ]/)) {
                 inputElement.value = inputElement.value;
             } else {
                 inputElement.value = inputElement.value.substr(0, inputElement.value.length - 1);
@@ -90,7 +65,7 @@ class AppData {
 
     checkInputForNumber(inputElement) {
         if (inputElement.value !== '') {
-            if (inputElement.value[inputElement.value.length - 1].match(numberRegExp)) {
+            if (inputElement.value[inputElement.value.length - 1].match(/^[0-9]/)) {
                 inputElement.value = inputElement.value;
             } else {
                 inputElement.value = inputElement.value.substr(0, inputElement.value.length - 1);
@@ -102,6 +77,27 @@ class AppData {
         let thisObj = this;
         return (() => {
             callback.apply(thisObj, inputElement);
+        });
+    }
+
+    isNumber(n) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
+    }
+
+    checkSalary() {
+        inputSalaryAmount.addEventListener('input', () => {
+            if (inputSalaryAmount !== '' && this.isNumber(inputSalaryAmount.value)) {
+                calculate.removeAttribute('disabled', "true");
+            }
+        });
+
+        if (inputSalaryAmount.value === '') {
+            calculate.setAttribute('disabled', "true");
+        }
+        inputSalaryAmount.addEventListener('input', () => {
+            if (inputSalaryAmount.value === '' || parseFloat(inputSalaryAmount) === 'NaN') {
+                calculate.setAttribute('disabled', "true");
+            }
         });
     }
 
@@ -155,23 +151,8 @@ class AppData {
             item.value = '';
         });
 
-        this.income = {};
-        this.incomeMonth = 0;
-        this.addIncome = [];
-        this.expenses = {};
-        this.addExpenses = [];
-        this.deposit = false;
-        this.budget = 0;
-        this.budgetDay = 0;
-        this.budgetMonth = 0;
-        this.expensesMonth = 0;
-        this.percentDeposit = 0;
-        this.moneyDeposit = 0;
-        //NB
-        //let reset = new AppData(); -PS! Можно ли как-то обнулить все this'ы перекопированием класса, как мы это делали с Object.assign?
-        //Просто получается мы использовали appData в прошлом вариаенте, а тут нужно как то универсально указать обнуляемый класс
-        //Я пытался что-то поделать, но не удалось. Хотел бы узнать у вас, если можно, то как это сделать :)
-        //Object.assign(this, reset);
+        let reset = new AppData();
+        Object.assign(AppData, reset);
 
         for (let i = 0; i < inputIncomeItem.length; i++) {
             inputIncomeItem[i].firstElementChild.value = '';
@@ -213,20 +194,20 @@ class AppData {
         let cloneExpensesItem = expensesItems[0].cloneNode(true);
         cloneExpensesItem.firstElementChild.value = '';
         cloneExpensesItem.lastElementChild.value = '';
-
         cloneExpensesItem.firstElementChild.addEventListener('input', () => {
             if (cloneExpensesItem.firstElementChild.value !== '') {
-                if (cloneExpensesItem.firstElementChild.value[cloneExpensesItem.firstElementChild.value.length - 1].match(regExp)) {
+                if (cloneExpensesItem.firstElementChild.value[cloneExpensesItem.firstElementChild.value.length - 1].match(/^[а-яА-Я., ]/)) {
                     cloneExpensesItem.firstElementChild.value = cloneExpensesItem.firstElementChild.value;
                 } else {
                     cloneExpensesItem.firstElementChild.value = cloneExpensesItem.firstElementChild.value.substr(0, cloneExpensesItem.firstElementChild.value.length - 1);
+                    console.log(this);
                 }
             }
         });
 
         cloneExpensesItem.lastElementChild.addEventListener('input', () => {
             if (cloneExpensesItem.lastElementChild.value !== '') {
-                if (cloneExpensesItem.lastElementChild.value[cloneExpensesItem.lastElementChild.value.length - 1].match(numberRegExp)) {
+                if (cloneExpensesItem.lastElementChild.value[cloneExpensesItem.lastElementChild.value.length - 1].match(/^[0-9]/)) {
                     cloneExpensesItem.lastElementChild.value = cloneExpensesItem.lastElementChild.value;
                 } else {
                     cloneExpensesItem.lastElementChild.value = cloneExpensesItem.lastElementChild.value.substr(0, cloneExpensesItem.lastElementChild.value.length - 1);
@@ -248,7 +229,7 @@ class AppData {
 
         cloneIncomeItem.firstElementChild.addEventListener('input', () => {
             if (cloneIncomeItem.firstElementChild.value !== '') {
-                if (cloneIncomeItem.firstElementChild.value[cloneIncomeItem.firstElementChild.value.length - 1].match(regExp)) {
+                if (cloneIncomeItem.firstElementChild.value[cloneIncomeItem.firstElementChild.value.length - 1].match(/^[а-яА-Я., ]/)) {
                     cloneIncomeItem.firstElementChild.value = cloneIncomeItem.firstElementChild.value;
                 } else {
                     cloneIncomeItem.firstElementChild.value = cloneIncomeItem.firstElementChild.value.substr(0, cloneIncomeItem.firstElementChild.value.length - 1);
@@ -258,7 +239,7 @@ class AppData {
 
         cloneIncomeItem.lastElementChild.addEventListener('input', () => {
             if (cloneIncomeItem.lastElementChild.value !== '') {
-                if (cloneIncomeItem.lastElementChild.value[cloneIncomeItem.lastElementChild.value.length - 1].match(numberRegExp)) {
+                if (cloneIncomeItem.lastElementChild.value[cloneIncomeItem.lastElementChild.value.length - 1].match(/^[0-9]/)) {
                     cloneIncomeItem.lastElementChild.value = cloneIncomeItem.lastElementChild.value;
                 } else {
                     cloneIncomeItem.lastElementChild.value = cloneIncomeItem.lastElementChild.value.substr(0, cloneIncomeItem.lastElementChild.value.length - 1);
@@ -273,16 +254,6 @@ class AppData {
         }
     }
 
-    getExpenses() {
-        expensesItems.forEach((item) => {
-            let itemExpenses = item.querySelector('.expenses-title').value;
-            let cashExpenses = item.querySelector('.expenses-amount').value;
-            if (itemExpenses !== '' && cashExpenses !== '') {
-                this.expenses[itemExpenses] = cashExpenses;
-            }
-        });
-    }
-
     getAddExpenses() {
         let addExpenses = inputAdditionalExpensesItem.value.split(',');
         addExpenses.forEach((item) => {
@@ -293,16 +264,18 @@ class AppData {
         });
     }
 
-    getIncome() {
-        inputIncomeItem.forEach((item) => {
-
-            let itemIncome = item.querySelector('.income-title').value;
-
-            let cashIncome = item.querySelector('.income-amount').value;
-            if (itemIncome !== '' && cashIncome !== '') {
-                this.income[itemIncome] = cashIncome;
+    getExpInc() {
+        const count = item => {
+            const startStr = item.className.split('-')[0];
+            const itemTitle = item.querySelector(`.${startStr}-title`).value;
+            const itemAmount = item.querySelector(`.${startStr}-amount`).value;
+            if (itemTitle !== '' && itemAmount !== '') {
+                this[startStr][itemTitle] = itemAmount;
             }
-        });
+        };
+
+        expensesItems.forEach(count);
+        inputIncomeItem.forEach(count);
 
         for (let key in this.income) {
             this.incomeMonth += +this.income[key];
@@ -369,12 +342,12 @@ class AppData {
     getInfoDeposit() {
         if (this.deposit) {
             this.percentDeposit = prompt('Какой годовой процент?', '10');
-            while (!isNumber(this.percentDeposit)) {
+            while (!this.isNumber(this.percentDeposit)) {
                 this.percentDeposit = prompt('Какой годовой процент?', '10');
             }
 
             this.moneyDeposit = prompt('Какая сумма заложена?', 10000);
-            while (!isNumber(this.moneyDeposit)) {
+            while (!this.isNumber(this.moneyDeposit)) {
                 this.moneyDeposit = prompt('Какая сумма заложена?', 10000);
             }
         }
@@ -449,10 +422,10 @@ class AppData {
             showIncomePeriodValue.value = this.calcSavedMoney();
         });
         cancel.addEventListener('click', this.reset);
-        cancel.addEventListener('click', checkSalary);
+        cancel.addEventListener('click', this.checkSalary);
 
         inputSalaryAmount.addEventListener('input', () => {
-            if (inputSalaryAmount !== '' && isNumber(inputSalaryAmount.value)) {
+            if (inputSalaryAmount !== '' && this.isNumber(inputSalaryAmount.value)) {
                 calculate.removeAttribute('disabled', "true");
             }
         });
