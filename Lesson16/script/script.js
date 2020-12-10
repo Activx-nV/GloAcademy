@@ -99,6 +99,9 @@ class AppData {
     }
 
     reset() {
+        let reset = new AppData();
+        Object.assign(appData, reset);
+
         inputIncomeItem.forEach((item, i) => {
             if (i !== 0) {
                 item.remove();
@@ -147,9 +150,6 @@ class AppData {
         document.querySelectorAll('input').forEach((item) => {
             item.value = '';
         });
-
-        let reset = new AppData();
-        Object.assign(AppData, reset);
 
         for (let i = 0; i < inputIncomeItem.length; i++) {
             inputIncomeItem[i].firstElementChild.value = '';
@@ -358,6 +358,9 @@ class AppData {
             calculate.setAttribute('disabled', 'true');
             depositPercent.style.display = 'block';
             depositPercent.removeAttribute('disabled');
+            // if (inputSalaryAmount.value === '' || parseFloat(inputSalaryAmount.value) === 'NaN') {
+            //     calculate.setAttribute('disabled', 'true');
+            // }
 
             depositPercent.addEventListener('input', () => {
                 if (isNaN(depositPercent.value) || parseFloat(depositPercent.value) < 0 || parseFloat(depositPercent.value) > 100) {
@@ -365,6 +368,9 @@ class AppData {
                     alert("Введите корректное значение в поле проценты");
                 } else {
                     calculate.removeAttribute('disabled', 'true');
+                    if (inputSalaryAmount.value === '' || parseFloat(inputSalaryAmount.value) === 'NaN') {
+                        calculate.setAttribute('disabled', 'true');
+                    }
                 }
             });
 
