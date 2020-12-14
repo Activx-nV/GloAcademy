@@ -43,6 +43,7 @@ function daysCheck(days) {
     }
 }
 
+
 function updateDate() {
     today = new Date();
     const time = today.toLocaleTimeString();
@@ -66,8 +67,15 @@ function updateDate() {
         messageOfTheDay = 'Доброй ночи';
     }
 
-
-    main.innerHTML = `${messageOfTheDay}<br>Сегодня: ${dayOfTheWeek}<br>Текущее время: ${time} ${amPm.mid}
+    if (day > 0) {
+        main.innerHTML = `${messageOfTheDay}<br>Сегодня: ${dayOfTheWeek}<br>Текущее время: ${time} ${amPm.mid}
     <br>До нового года осталось: ${day} ${daysCheck(day)}`;
+    } else {
+        clearInterval(updateInterval);
+        return;
+    }
+
+
 }
-setInterval(updateDate, 1000);
+
+const updateInterval = setInterval(updateDate, 1000);
