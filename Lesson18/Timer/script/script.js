@@ -24,11 +24,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
         function updateClock() {
             const timer = getTimeRemaining();
-            timerHours.textContent = timer.hours;
             timerHours.textContent = timerHours.textContent.padStart(2, 0);
-            timerMinutes.textContent = timer.minutes;
             timerMinutes.textContent = timerMinutes.textContent.padStart(2, 0);
-            timerSeconds.textContent = timer.seconds;
             timerSeconds.textContent = timerSeconds.textContent.padStart(2, 0);
 
             if (timer.timeRemaining < 0) {
