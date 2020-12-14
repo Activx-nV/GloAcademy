@@ -23,7 +23,6 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
         function updateClock() {
-
             const timer = getTimeRemaining();
             timerHours.textContent = timer.hours;
             timerHours.textContent = timerHours.textContent.padStart(2, 0);
@@ -32,10 +31,7 @@ window.addEventListener('DOMContentLoaded', () => {
             timerSeconds.textContent = timer.seconds;
             timerSeconds.textContent = timerSeconds.textContent.padStart(2, 0);
 
-            if (timer.timeRemaining > 0) {
-                const updateTimeOut = setTimeout(updateClock, 1000);
-                clearInterval(updateTimeOut);
-            } else if (timer.timeRemaining < 0) {
+            if (timer.timeRemaining < 0) {
                 timerHours.textContent = '00';
                 timerMinutes.textContent = '00';
                 timerSeconds.textContent = '00';
