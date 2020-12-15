@@ -1,5 +1,5 @@
 window.addEventListener('DOMContentLoaded', () => {
-    const interval = setInterval(countTimer, 1000, '15 december 2020');
+    const interval = setInterval(countTimer, 1000, '16 december 2020');
 
     function countTimer(deadline) {
         const timerHours = document.querySelector('#timer-hours');
@@ -24,9 +24,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
         function updateClock() {
             const timer = getTimeRemaining();
-            timerHours.textContent = timerHours.textContent.padStart(2, 0);
-            timerMinutes.textContent = timerMinutes.textContent.padStart(2, 0);
-            timerSeconds.textContent = timerSeconds.textContent.padStart(2, 0);
+            timerHours.textContent = String(timer.hours).padStart(2, '0');
+            timerMinutes.textContent = String(timer.minutes).padStart(2, '0');
+            timerSeconds.textContent = String(timer.seconds).padStart(2, '0');
 
             if (timer.timeRemaining < 0) {
                 timerHours.textContent = '00';
