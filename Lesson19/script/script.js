@@ -52,13 +52,16 @@ window.addEventListener('DOMContentLoaded', () => {
                 const flyAnimate = function() {
                     flyInterval = requestAnimationFrame(flyAnimate);
                     count += 20;
-                    if (count < 1000 && document.documentElement.clientWidth >= 1900) {
+                    if (count < 1000 && document.documentElement.clientWidth > 1900) {
                         menu.style.left = count + 'px';
-                    } else if (count < 900 && document.documentElement.clientWidth < 1900 &&
+                    } else if (count < 700 && document.documentElement.clientWidth < 1900 &&
                         document.documentElement.clientWidth > 1200) {
                         menu.style.left = count + 'px';
                     } else if (count < 550 && document.documentElement.clientWidth < 1920 &&
                         document.documentElement.clientWidth > 1000) {
+                        menu.style.left = count + 'px';
+                    }   else if (count < 850 && document.documentElement.clientWidth < 1920 &&
+                        document.documentElement.clientWidth >= 1600) {
                         menu.style.left = count + 'px';
                     } else if (document.documentElement.clientWidth > 768) {
                         cancelAnimationFrame(flyInterval);
@@ -82,18 +85,44 @@ window.addEventListener('DOMContentLoaded', () => {
     toggleMenu();
 
     const togglePopUp = () => {
+        let opacityIn = 0;
+        let opacityOut = 1;
         const popUp = document.querySelector('.popup'),
             popupBtn = document.querySelectorAll('.popup-btn'),
             popUpClose = document.querySelector('.popup-close');
 
         popupBtn.forEach(elem => {
             elem.addEventListener('click', () => {
+                opacityIn = 0;
                 popUp.style.display = 'block';
+                let opacityInterval;
+                const opacityAnimate = function() {
+                    opacityInterval = requestAnimationFrame(opacityAnimate);
+                    opacityIn += 0.01;
+                    if (opacityIn < 1.01) {
+                        popUp.style.opacity = opacityIn;
+                    } else if (opacityIn >= 1) {
+                        cancelAnimationFrame(opacityInterval);
+                    }
+                };
+                opacityInterval = requestAnimationFrame(opacityAnimate);
             });
         });
 
         popUpClose.addEventListener('click', () => {
-            popUp.style.display = 'none';
+            let opacityInterval;
+            opacityOut = 1;
+            const opacityAnimate = function() {
+                opacityInterval = requestAnimationFrame(opacityAnimate);
+                opacityOut -= 0.01;
+                if (opacityOut > 0.01) {
+                    popUp.style.opacity = opacityOut;
+                } else {
+                    popUp.style.display = 'none';
+                    cancelAnimationFrame(opacityInterval);
+                }
+            };
+            opacityInterval = requestAnimationFrame(opacityAnimate);
         });
     };
     togglePopUp();
