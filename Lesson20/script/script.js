@@ -97,46 +97,34 @@ window.addEventListener('DOMContentLoaded', () => {
         let opacityIn = 0;
         let opacityOut = 1;
         const popUp = document.querySelector('.popup'),
-            popupBtn = document.querySelectorAll('.popup-btn'),
-            popUpClose = document.querySelector('.popup-close');
+            popupBtn = document.querySelectorAll('.popup-btn');
+            //popUpClose = document.querySelector('.popup-close');
 
         popupBtn.forEach(elem => {
             elem.addEventListener('click', () => {
-                opacityIn = 0;
-                popUp.style.display = 'block';
-                let opacityInterval;
-                const opacityAnimate = function() {
+                if (document.documentElement.clientWidth >= 768) {
+                    opacityIn = 0;
+                    popUp.style.display = 'block';
+                    let opacityInterval;
+                    const opacityAnimate = function() {
+                        opacityInterval = requestAnimationFrame(opacityAnimate);
+                        opacityIn += 0.01;
+                        if (opacityIn < 1.01) {
+                            popUp.style.opacity = opacityIn;
+                        } else if (opacityIn >= 1) {
+                            cancelAnimationFrame(opacityInterval);
+                        }
+                    };
                     opacityInterval = requestAnimationFrame(opacityAnimate);
-                    opacityIn += 0.01;
-                    if (opacityIn < 1.01) {
-                        popUp.style.opacity = opacityIn;
-                    } else if (opacityIn >= 1) {
-                        cancelAnimationFrame(opacityInterval);
-                    }
-                };
-                opacityInterval = requestAnimationFrame(opacityAnimate);
+                } else {
+                    popUp.style.display = 'block';
+                }
             });
             popUp.addEventListener('click', event => {
                 let target = event.target;
 
                 if (target.classList.contains('popup-close')) {
-                    let opacityInterval;
-                    opacityOut = 1;
-                    const opacityAnimate = function() {
-                        opacityInterval = requestAnimationFrame(opacityAnimate);
-                        opacityOut -= 0.01;
-                        if (opacityOut > 0.01) {
-                            popUp.style.opacity = opacityOut;
-                        } else {
-                            popUp.style.display = 'none';
-                            cancelAnimationFrame(opacityInterval);
-                        }
-                    };
-                    opacityInterval = requestAnimationFrame(opacityAnimate);
-                    //popUp.style.display = 'none';
-                } else {
-                    target = target.closest('.popup-content');
-                    if (!target) {
+                    if (document.documentElement.clientWidth >= 768) {
                         let opacityInterval;
                         opacityOut = 1;
                         const opacityAnimate = function() {
@@ -150,6 +138,31 @@ window.addEventListener('DOMContentLoaded', () => {
                             }
                         };
                         opacityInterval = requestAnimationFrame(opacityAnimate);
+                    } else {
+                        popUp.style.display = 'none';
+                    }
+                    //popUp.style.display = 'none';
+                } else {
+                    target = target.closest('.popup-content');
+                    if (!target) {
+                        if (document.documentElement.clientWidth >= 768) {
+                            let opacityInterval;
+                            opacityOut = 1;
+                            const opacityAnimate = function() {
+                                opacityInterval = requestAnimationFrame(opacityAnimate);
+                                opacityOut -= 0.01;
+                                if (opacityOut > 0.01) {
+                                    popUp.style.opacity = opacityOut;
+                                } else {
+                                    popUp.style.display = 'none';
+                                    cancelAnimationFrame(opacityInterval);
+                                }
+                            };
+                            opacityInterval = requestAnimationFrame(opacityAnimate);
+                        } else {
+                            popUp.style.display = 'none';
+                        }
+
                         //popUp.style.display = 'none';
                     }
                 }
@@ -157,21 +170,21 @@ window.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        popUpClose.addEventListener('click', () => {
-            let opacityInterval;
-            opacityOut = 1;
-            const opacityAnimate = function() {
-                opacityInterval = requestAnimationFrame(opacityAnimate);
-                opacityOut -= 0.01;
-                if (opacityOut > 0.01) {
-                    popUp.style.opacity = opacityOut;
-                } else {
-                    popUp.style.display = 'none';
-                    cancelAnimationFrame(opacityInterval);
-                }
-            };
-            opacityInterval = requestAnimationFrame(opacityAnimate);
-        });
+        // popUpClose.addEventListener('click', () => {
+        //     let opacityInterval;
+        //     opacityOut = 1;
+        //     const opacityAnimate = function () {
+        //         opacityInterval = requestAnimationFrame(opacityAnimate);
+        //         opacityOut -= 0.01;
+        //         if (opacityOut > 0.01) {
+        //             popUp.style.opacity = opacityOut;
+        //         } else {
+        //             popUp.style.display = 'none';
+        //             cancelAnimationFrame(opacityInterval);
+        //         }
+        //     };
+        //     opacityInterval = requestAnimationFrame(opacityAnimate);
+        // });
     };
     togglePopUp();
 
