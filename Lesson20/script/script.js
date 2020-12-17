@@ -118,6 +118,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     opacityInterval = requestAnimationFrame(opacityAnimate);
                 } else {
                     popUp.style.display = 'block';
+                    popUp.style.opacity = 1;
                 }
             });
             popUp.addEventListener('click', event => {
