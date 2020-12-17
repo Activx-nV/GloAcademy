@@ -118,6 +118,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     opacityInterval = requestAnimationFrame(opacityAnimate);
                 } else {
                     popUp.style.display = 'block';
+                    popUp.style.opacity = 1;
                 }
             });
             popUp.addEventListener('click', event => {
@@ -191,6 +192,12 @@ window.addEventListener('DOMContentLoaded', () => {
         const tabHeader = document.querySelector('.service-header'),
             tab = tabHeader.querySelectorAll('.service-header-tab'),
             tabContent = document.querySelectorAll('.service-tab');
+
+        tabContent.forEach((item, index) => {
+            if (index !== 0) {
+                item.classList.add('d-none');
+            }
+        });
 
         const toggleTabContent = index => {
             for (let i = 0; i < tabContent.length; i++) {
