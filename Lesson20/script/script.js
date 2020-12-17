@@ -98,7 +98,7 @@ window.addEventListener('DOMContentLoaded', () => {
         let opacityOut = 1;
         const popUp = document.querySelector('.popup'),
             popupBtn = document.querySelectorAll('.popup-btn');
-            //popUpClose = document.querySelector('.popup-close');
+        //popUpClose = document.querySelector('.popup-close');
 
         popupBtn.forEach(elem => {
             elem.addEventListener('click', () => {
@@ -187,11 +187,16 @@ window.addEventListener('DOMContentLoaded', () => {
         // });
     };
     togglePopUp();
-
     const tabs = () => {
         const tabHeader = document.querySelector('.service-header'),
             tab = tabHeader.querySelectorAll('.service-header-tab'),
             tabContent = document.querySelectorAll('.service-tab');
+
+        tabContent.forEach((item, index) => {
+            if (index !== 0) {
+                item.classList.add('d-none');
+            }
+        });
 
         const toggleTabContent = index => {
             for (let i = 0; i < tabContent.length; i++) {
@@ -220,4 +225,102 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     };
     tabs();
+
+
+    //slider
+    const slider = () => {
+        const slide = document.querySelectorAll('.portfolio-item'),
+            btn = document.querySelectorAll('.portfolio-btn'),
+            slider = document.querySelector('.portfolio-content'),
+            dotParent = document.querySelector('.portfolio-dots');
+
+
+        let currentSlide = 0,
+            interval;
+
+        const createDots = () => {
+            for (let i = 0; i < slide.length; i++) {
+                const li = document.createElement('li');
+                li.classList.add('dot');
+                dotParent.append(li);
+            }
+        };
+        createDots();
+        const dot = document.querySelectorAll('.dot');
+
+        const prevSlide = (elem, index, strClass) => {
+            elem[index].classList.remove(strClass);
+        };
+
+        const nextSlide = (elem, index, strClass) => {
+            elem[index].classList.add(strClass);
+        };
+
+
+        const autoPlaySlide = () => {
+            prevSlide(slide, currentSlide, 'portfolio-item-active');
+            prevSlide(dot, currentSlide, 'dot-active');
+            currentSlide++;
+            if (currentSlide >= slide.length) {
+                currentSlide = 0;
+            }
+            nextSlide(slide, currentSlide, 'portfolio-item-active');
+            nextSlide(dot, currentSlide, 'dot-active');
+        };
+
+        const startSlide = (time = 3000) => {
+            interval = setInterval(autoPlaySlide, time);
+        };
+
+        const stopSlide = () => {
+            clearInterval(interval);
+        };
+
+        slider.addEventListener('click', event => {
+            event.preventDefault();
+
+            const target = event.target;
+
+            if (!target.matches('.portfolio-btn, .dot')) {
+                return;
+            }
+
+            prevSlide(slide, currentSlide, 'portfolio-item-active');
+            prevSlide(dot, currentSlide, 'dot-active');
+
+            if (target.matches('#arrow-right')) {
+                currentSlide++;
+            } else if (target.matches('#arrow-left')) {
+                currentSlide--;
+            } else if (target.matches('.dot')) {
+                dot.forEach((elem, index) => {
+                    if (elem === target) {
+                        currentSlide = index;
+                    }
+                });
+            }
+            if (currentSlide >= slide.length) {
+                currentSlide = 0;
+            } else if (currentSlide < 0) {
+                currentSlide = slide.length - 1;
+            }
+            nextSlide(slide, currentSlide, 'portfolio-item-active');
+            nextSlide(dot, currentSlide, 'dot-active');
+        });
+
+        slider.addEventListener('mouseover', event => {
+            if (event.target.matches('.portfolio-btn') || event.target.matches('.dot')) {
+                stopSlide();
+            }
+        });
+
+        slider.addEventListener('mouseout', event => {
+            if (event.target.matches('.portfolio-btn') || event.target.matches('.dot')) {
+                startSlide();
+            }
+        });
+
+        startSlide(1500);
+    };
+    slider();
 });
