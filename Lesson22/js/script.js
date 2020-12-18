@@ -56,6 +56,7 @@ class Todo {
                 completed: false,
                 key: this.generateKey(),
             };
+            this.input.value = '';
             this.todoData.set(newTodo.key, newTodo);
             this.render();
         }
